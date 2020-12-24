@@ -261,62 +261,30 @@ function clearOrRemoveData(event){
 
 var result = 0
 
-function eval(){
-
-    var input1,input2,flag=0
-
-    for(var i=0;i<inputData.length;i++){
-
-        if(i===0 && inputData[i]==="+"){
-            inputData = inputData.slice(i+1)
-        }
-        else if(i===0 && inputData[i]==="-"){
-            inputData = inputData.slice(i+1)
-            flag = 1
-        }
-        else if(["+","-","X","*","/","%"].some((operators)=>{return operators===inputData[i]}) && i!==0 ){
-            input1 = parse(inputData.slice(0,i))
-            input2 = parse(inputData.slice(i+1))
-            break;
-        }
+function solveSingle(arr){
+    arr = arr.slice();
+    while(arr.length-1){
+      if(arr[1] === '*' || arr[1]==="X" ) arr[0] = arr[0] * arr[2]
+      if(arr[1] === '-') arr[0] = arr[0] - arr[2]
+      if(arr[1] === '+') arr[0] = +arr[0] + (+arr[2])
+      if(arr[1] === '/') arr[0] = arr[0] / arr[2]
+      if(arr[1] === '%') arr[0] = arr[0] % arr[2]
+      arr.splice(1,1);
+      arr.splice(1,1);
     }
-
-    if(i===inputData.length){
-        result = document.querySelector("#input-area").value
-    }
-
-    if(flag===1){
-        input1 = -1*input1
-    }
-
-    if(inputData[i]==="+"){
-        result = input1 + input2
-    }
-    if(inputData[i]==="-"){
-        result = input1 - input2
-    }
-    if(inputData[i]==="X" || inputData[i]==="*"){
-        result = input1 * input2
-    }
-    if(inputData[i]==="/"){
-        result = input1 / input2
-    }
-    if(inputData[i]==="%"){
-        result = input1 % input2
-    }
+    return arr[0];
+  }
+  
+  function eval() {
+    var eq = inputData
+    let res = eq.split(/(\+|-)/g).map(x => x.trim().split(/(\*|\/|\X|\%)/g).map(a => a.trim()));
+    res = res.map(x => solveSingle(x)); 
+     
+    result =  solveSingle(res)
     document.querySelector("#input-area").value = result
-    inputData = result
-}
-
-function parse(data){
-    if(data.indexOf(".")===-1){
-        return parseInt(data)
-    }
-    else{
-        return parseFloat(data)
-    }
-}
-
+    inputData = result 
+  }
+  
 var memory = 0
 var count = 0
 
