@@ -228,8 +228,7 @@ evalButtonElement.addEventListener("click",eval)
 var inputData = ""
 
 function onKeyPress(event){
-    var key = event.key
-    if(['0','1','2','3','4','5','6','7','8','9','+','-','*','/','%',"Enter","Backspace","Shift"].indexOf(key)==-1){
+    if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105)){
         alert("Only numbers are allowed")
         inputData = ""
         document.querySelector("input").value = ""
@@ -262,9 +261,6 @@ function clearOrRemoveData(event){
 
 var result = 0
 
-
-
-
 function eval(){
 
     var input1,input2,flag=0
@@ -273,7 +269,6 @@ function eval(){
 
         if(i===0 && inputData[i]==="+"){
             inputData = inputData.slice(i+1)
-            console.log(inputData)
         }
         else if(i===0 && inputData[i]==="-"){
             inputData = inputData.slice(i+1)
@@ -338,9 +333,11 @@ function memoryActions(event){
         inputData = document.querySelector("#input-area").value
     }
     if(targetName === "M+"){
-        memory = parseInt(document.querySelector("#input-area").value) + memory
-        document.querySelector("#input-area").value = memory
-        localStorage.setItem(`memory-value-${++count}`,memory)
+        if(document.querySelector("#input-area").value!=""){
+            memory = parseInt(document.querySelector("#input-area").value) + memory
+            document.querySelector("#input-area").value = memory
+            localStorage.setItem(`memory-value-${++count}`,memory)
+        }
     }
     if(targetName === "MS"){
         memory = result
