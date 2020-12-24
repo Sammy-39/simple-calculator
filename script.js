@@ -228,8 +228,8 @@ evalButtonElement.addEventListener("click",eval)
 var inputData = ""
 
 function onKeyPress(event){
-    var key = event.key.toLowerCase()
-    if(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'].indexOf(key)!==-1){
+    var key = event.key
+    if(['0','1','2','3','4','5','6','7','8','9','+','-','*','/','%',"Enter","Backspace","Shift"].indexOf(key)==-1){
         alert("Only numbers are allowed")
         inputData = ""
         document.querySelector("input").value = ""
